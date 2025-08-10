@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package node;
+
+option go_package = ".;node";
+option csharp_namespace = "Distorage.GrpcServices.Node";
+
+service Node {
+	rpc Debug (DebugRequest) returns (DebugResponse);
+	rpc SayHello (HelloRequest) returns (HelloResponse);
+	rpc Subscribe (SubscribeRequest) returns (SubscribeResponse);
+	rpc SendUploadedReplica (stream SendUploadedReplicaRequest) returns (SendUploadedReplicaResponse);
+	rpc SendUploadedMetadata (SendUploadedMetadataRequest) returns (SendUploadedMetadataResponse);
+	rpc GetReplica (GetReplicaRequest) returns (stream GetReplicaResponse);
+	rpc SendRecoveryMetadata (SendRecoveryMetadataRequest) returns (SendRecoveryMetadataResponse);
+	rpc UpdateMetadata(UpdateMetadataRequest) returns (UpdateMetadataResponse);
+	rpc DeleteReplica(DeleteReplicaRequest) returns (DeleteReplicaResponse);
+}
+
+message Metadata {
+	string id = 1;
+	string filename = 2;
+}
+
+//
+
+message DebugRequest {
+
+}
+
+message DebugResponse {
+	string id = 1;
+	string name = 2;
+	string url = 3;
+	repeated DebugResponseMetadata available_metadata = 4;
+	repeated DebugResponseFriend friends = 5;
+	repeated DebugResponseAvailable availables = 6;
+}
+
+message DebugResponseMetadata {
+	string id = 1;
+	string filename = 2;
+	bool isAvailable = 3;
+}
+
+message DebugResponseFriend {
+	string id = 1;
+	string url = 2;
+}
+
+message DebugResponseAvailable {
+	string FriendId = 1;
+	string FileId = 2;
+}
+
+//
+
+message HelloRequest {
+	string id = 1;
+	string name = 2;
+	string url = 3;
+}
+
+message HelloResponse {
+	string id = 1;
+	string name = 2;
+	string url = 3;
+	repeated HelloResponseMetadata available_metadata = 4;
+	repeated string friends_urls = 5;
+}
+
+message HelloResponseMetadata {
+	string id = 1;
+	string filename = 2;
+}
+
+//
+
+message SubscribeRequest {
+	string id = 1;
+	string name = 2;
+	string url = 3;
+}
+
+message SubscribeResponse {
+	string id = 1;
+	string name = 2;
+	string url = 3;
+}
+
+//
+
+message SendUploadedReplicaRequest {
+	SendUploadedMetadataRequest metadata = 1;
+	bytes chunk = 2;
+}
+
+message SendUploadedReplicaResponse {
+
+}
+
+//
+
+message SendUploadedMetadataRequest {
+	string id = 1;
+	string filename = 2;
+	repeated string friends_with_replica = 3;
+}
+
+message SendUploadedMetadataResponse {
+
+}
+
+//
+
+message GetReplicaRequest {
+	string id = 1;
+}
+
+message GetReplicaResponse {
+	bytes chunk = 1;
+}
+
+//
+
+message SendRecoveryMetadataRequest {
+	string fromId = 1;
+	repeated string fileIds = 2;
+}
+
+message SendRecoveryMetadataResponse {
+
+}
+
+//
+
+message UpdateMetadataRequest {
+	string id = 1;
+	string filename = 2;
+}
+
+message UpdateMetadataResponse {
+	
+}
+
+//
+
+message DeleteReplicaRequest {
+	string id = 1;
+}
+
+message DeleteReplicaResponse {
+
+}

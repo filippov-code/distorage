@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package gateway;
+
+option go_package = ".;gateway";
+option csharp_namespace = "Distorage.GrpcServices.Gateway";
+
+service Gateway {
+  rpc Upload (stream UploadRequest) returns (UploadResponse);
+  rpc Update (UpdateRequest) returns (UpdateResponse);
+  rpc Get (GetRequest) returns (stream GetResponse);
+  rpc Delete (DeleteRequest) returns (DeleteResponse);
+}
+
+message UploadRequest {
+  string filename = 1;
+  bytes chunk = 2;
+}
+
+message UploadResponse {
+  string id = 1;
+}
+
+//
+
+message UpdateRequest {
+  string id = 1;
+  string filename = 2;
+}
+
+message UpdateResponse {
+
+}
+
+//
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  string filename = 1;
+  bytes chunk = 2;
+}
+
+//
+
+message DeleteRequest {
+  string id = 1;
+}
+
+message DeleteResponse {
+
+}
