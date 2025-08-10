@@ -346,11 +346,8 @@ func (s *Server) Delete(ctx context.Context, req *DeleteRequest) (*DeleteRespons
 
 	//Находим друзей, у которых есть реплики
 	availabilities := s.availabilityRepository.GetByFileIDs(id)
-	log.Printf("availabilities: len = %d", len(availabilities))
 	friendIds := tools.Select(availabilities, func(a *rep.Availability) uuid.UUID { return a.FriendID })
-	log.Printf("friendIds: len = %d", len(friendIds))
 	friends := s.friendsRepository.GetMany(friendIds)
-	log.Printf("friends: len = %d", len(friends))
 
 	//Рассылаем delete на все узлы
 	for _, f := range friends {
